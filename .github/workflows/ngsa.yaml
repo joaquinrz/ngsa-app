@@ -165,5 +165,5 @@ jobs:
     #     docker run \
     #     --name ago \
     #     --rm \
-    #     -v $(pwd)/autogitops:/ago/autogitops \
+    #     -v $(pwd)/autogitops:/ago/autogitops  \
     #     ghcr.io/retaildevcrews/autogitops:0.3.0 -r /retaildevcrews/ngsa-asb -p ${{ secrets.GHCR_PAT }}
