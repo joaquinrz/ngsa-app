@@ -148,6 +148,8 @@ jobs:
         file: "Ngsa.App.csproj"
         version: bump-build
 
+
+
     # - name: Docker Tag and Push
     #   run: |
     #     VERSION=$(docker run --rm image --version)
