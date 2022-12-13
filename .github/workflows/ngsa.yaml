@@ -22,7 +22,7 @@ jobs:
 
     runs-on: ubuntu-20.04
     env:
-      DOCKER_REPO: ghcr.io/retaildevcrews/ngsa-app
+      DOCKER_REPO: ghcr.io/joaquinrz/ngsa-app
 
     steps:
     - uses: actions/checkout@v2
@@ -161,9 +161,13 @@ jobs:
       run: |
        VERSION=$(docker run --rm image --version)
         # tag the repo with latest version and :beta
+
+        echo "version1: {{ steps.update.outputs.newVersion }}"
+        echo "version2: ${{ steps.update.outputs.newVersion }}""
+
         docker tag image $DOCKER_REPO:beta
-        docker tag image $DOCKER_REPO:${{ steps.update.outputs.newVersion }}
+        docker tag image $DOCKER_REPO:{{ steps.update.outputs.newVersion }}
 
         # Push to the repo
         docker push -a $DOCKER_REPO:beta
-        docker push -a $DOCKER_REPO:${{ steps.update.outputs.newVersion }}
+        docker push -a $DOCKER_REPO:{{ steps.update.outputs.newVersion }}
