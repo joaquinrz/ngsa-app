@@ -27,12 +27,12 @@ jobs:
     steps:
     - uses: actions/checkout@v2
 
-    # - name: Login to Container Registry
-    #   uses: docker/login-action@v1
-    #   with:
-    #     registry: ghcr.io
-    #     username: ${{ secrets.GHCR_ID }}
-    #     password: ${{ secrets.GHCR_PAT }}
+    - name: Login to Container Registry
+      uses: docker/login-action@v1
+      with:
+        registry: ghcr.io
+        username: ${{ secrets.GHCR_ID_JRZ }}
+        password: ${{ secrets.GHCR_PAT_JRZ }}
 
     - name: Docker Build
       run: |
@@ -148,24 +148,21 @@ jobs:
         file: "Ngsa.App.csproj"
         version: bump-build
 
+    - run: |
+          git config user.name "Joaquin Rodriguez"
+          git config user.email "rjoaquin@microsoft.com"
+          git add .
+          git commit -m "Update project version to ${{ steps.update.outputs.newVersion }}"
+          git push
 
 
-    # - name: Docker Tag and Push
-    #   run: |
-    #     VERSION=$(docker run --rm image --version)
-    #     # tag the repo with :beta
-    #     docker tag image $DOCKER_REPO:beta
-    #     # Push to the repo
-    #     docker push -a $DOCKER_REPO
 
-    # - name: AutoGitOps Pull
-    #   run: |
-    #     docker pull ghcr.io/retaildevcrews/autogitops:0.3.0
+    - name: Docker Tag and Push
+      run: |
+       VERSION=$(docker run --rm image --version)
+        # tag the repo with latest version and :beta
+        docker tag image $DOCKER_REPO:beta
+        docker tag image $DOCKER_REPO:${{ steps.update.outputs.newVersion }}
 
-    # - name: GitOps Deploy
-    #   run: |
-    #     docker run \
-    #     --name ago \
-    #     --rm \
-    #     -v $(pwd)/autogitops:/ago/autogitops  \
-    #     ghcr.io/retaildevcrews/autogitops:0.3.0 -r /retaildevcrews/ngsa-asb -p ${{ secrets.GHCR_PAT }}
+        # Push to the repo
+        docker push -a $DOCKER_REPO
