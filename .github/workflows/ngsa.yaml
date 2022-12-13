@@ -157,8 +157,6 @@ jobs:
           git commit -m "Update project version to ${{ steps.bump.outputs.newVersion }}"
           git push
 
-
-
     - name: Docker Tag and Push
       run: |
        # VERSION=$(docker run --rm image --version)
